@@ -122,10 +122,10 @@
       <screen x="0" y="0" width="1536" height="834" />
     </state>
     <state x="223" y="72" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.834@0.0.1536.834" timestamp="1608992490530" />
-    <state x="382" y="12" key="CommitChangelistDialog2" timestamp="1608995326448">
+    <state x="382" y="12" key="CommitChangelistDialog2" timestamp="1608996668467">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
-    <state x="382" y="12" key="CommitChangelistDialog2/0.0.1536.834@0.0.1536.834" timestamp="1608995326448" />
+    <state x="382" y="12" key="CommitChangelistDialog2/0.0.1536.834@0.0.1536.834" timestamp="1608996668467" />
     <state width="1493" height="120" key="GridCell.Tab.0.bottom" timestamp="1608996617188">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
@@ -146,10 +146,10 @@
       <screen x="0" y="0" width="1536" height="834" />
     </state>
     <state x="277" y="60" key="SettingsEditor/0.0.1536.834@0.0.1536.834" timestamp="1608991828501" />
-    <state x="361" y="139" key="Vcs.Push.Dialog.v2" timestamp="1608995274430">
+    <state x="361" y="139" key="Vcs.Push.Dialog.v2" timestamp="1608996670446">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
-    <state x="361" y="139" key="Vcs.Push.Dialog.v2/0.0.1536.834@0.0.1536.834" timestamp="1608995274430" />
+    <state x="361" y="139" key="Vcs.Push.Dialog.v2/0.0.1536.834@0.0.1536.834" timestamp="1608996670446" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Project$Main.coverage" NAME="Main Coverage Results" MODIFIED="1608996617179" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/main" />
