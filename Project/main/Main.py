@@ -9,6 +9,7 @@ import math
 import scipy.ndimage.filters as filters
 import scipy.ndimage as ndimage
 
+
 image = imread('pentagon.png')
 
 print("image shape: ", image.shape)
@@ -100,18 +101,15 @@ for i, j in zip(y, x):
     theta = round((1.0 * j * theta_max) / theta_dim, 1)
 
     fig, ax = plot.subplots()
-    xi, yi, zi = img_shape
-    img = (xi, yi)
-    img_shape = np.squeeze(img_shape)
-    print(img_shape)
-    ax.imshow(img_shape)
+
+    ax.imshow(image)
     ax.autoscale(False)
 
     px = []
     py = []
     for i in range(-y_max - 40, y_max + 40, 1):
         px.append(math.cos(-theta) * i - math.sin(-theta) * r)
-        px.append(math.cos(-theta) * i + math.sin(-theta) * r)
+        py.append(math.sin(-theta) * i + math.cos(-theta) * r)
     ax.plot(px, py, linewidth=10)
 
     plot.savefig("image_line_" + "%02d" % lineCount + ".png", bbox_inches='tight')
