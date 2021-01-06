@@ -1,15 +1,16 @@
 from imageio import imread
-from scipy import misc
+import threading
 
 import matplotlib.pylab as plot
 import numpy as np
-import numpy.core.fromnumeric as np2
+from mpi4py import MPI
 import math
 
 import scipy.ndimage.filters as filters
 import scipy.ndimage as ndimage
 
-
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
 image = imread('pentagon.png')
 
 print("image shape: ", image.shape)
@@ -36,7 +37,7 @@ hough_space = np.zeros((r_dim, theta_dim))
 
 for x in range(x_max):
     for y in range(y_max):
-        if image[x,y,0] == 255: continue
+        if image[x, y, 0] == 255: continue
         for itheta in range(theta_dim):
             theta = 1.0 * itheta * theta_max / theta_dim
             r = x * math.cos(theta) + y * math.sin(theta)
@@ -83,6 +84,7 @@ for dy, dx in slices:
     y_center = (dy.start + dy.stop - 1) / 2
     y.append(y_center)
 
+
 print(x)
 print(y)
 
@@ -96,7 +98,9 @@ plot.savefig('hough_space_maximas.png')
 plot.close()
 lineCount = 1
 
-for i, j in zip(y, x):
+lock = threading.Lock()
+def thread_function(i, j):
+    global lineCount
     r = round((1.0 * i * r_max) / r_dim, 1)
     theta = round((1.0 * j * theta_max) / theta_dim, 1)
 
@@ -111,11 +115,26 @@ for i, j in zip(y, x):
         px.append(math.cos(-theta) * i - math.sin(-theta) * r)
         py.append(math.sin(-theta) * i + math.cos(-theta) * r)
     ax.plot(px, py, linewidth=10)
-
+    lock.acquire()
     plot.savefig("image_line_" + "%02d" % lineCount + ".png", bbox_inches='tight')
 
-    # plt.show()
+    plot.show()
 
     plot.close()
-
     lineCount = lineCount + 1
+    lock.release()
+
+# threads = []
+# for i, j in zip(y, x):
+#     t = threading.Thread(target=thread_function, args=[i, j])
+#     threads.append(t)
+#     t.start()
+# for thread in threads:
+#     thread.join()
+
+if rank == 0:
+    data = np.arange(1000, dtype='i')
+    comm.Send([data, MPI.INT], dest=1, tag=77)
+elif rank == 1:
+    data = np.empty(1000, dtype='i')
+    comm.Recv([data, MPI.INT], source=0, tag=77)
