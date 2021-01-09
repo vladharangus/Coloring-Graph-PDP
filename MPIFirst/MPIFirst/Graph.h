@@ -3,12 +3,7 @@ class Graph
 {
 public:
 	int V;
-	int matrix[4][4] = {
-        { 0, 1, 1, 1 },
-        { 1, 0, 1, 0 },
-        { 1, 1, 0, 1 },
-        { 1, 0, 1, 0 },
-    };;
+	int matrix[10][10];
 	Graph(int V);
 	void init();
 };

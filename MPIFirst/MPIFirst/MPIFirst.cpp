@@ -7,11 +7,11 @@
 
 using namespace std;
 
-int V = 4;
+int V = 5;
 int numerOfColors = 3;
 Graph graph = NULL;
 int color[10];
-int sentcolor[10];
+int colorSlave[10];
 int ok1;
 int ok2;
 void printGraph() {
@@ -24,7 +24,7 @@ void printGraph() {
 }
 bool isSafe(int vertex, int c) {
     for (int i = 0; i < V; i++)
-        if (graph.matrix[vertex][i] && c == sentcolor[i])
+        if (graph.matrix[vertex][i] && c == colorSlave[i])
             return false;
     return true;
 }
@@ -34,10 +34,10 @@ bool backtracking(int pos) {
 
     for (int c = 1; c <= numerOfColors; c++) {
         if (isSafe(pos, c)) {
-            sentcolor[pos] = c;
+            colorSlave[pos] = c;
             if (backtracking(pos + 1))
                 return true;
-            sentcolor[pos] = 0;
+            colorSlave[pos] = 0;
         }
     }
     return false;
@@ -52,7 +52,6 @@ int main(int argc, char **argv)
     MPI_Comm_size(MPI_COMM_WORLD, &commsize);
     MPI_Status status;
     if (rank == 0) {
-        ok1 = 100;
         MPI_Send(&color, V, MPI_INT, 1, 7, MPI_COMM_WORLD);
         MPI_Recv(&ok1, 1, MPI_INT, 1, 10, MPI_COMM_WORLD, &status);
         MPI_Recv(&color, V, MPI_INT, 1, 11, MPI_COMM_WORLD, &status);
@@ -64,21 +63,15 @@ int main(int argc, char **argv)
         else cout << "No solution :(";
     }
     if (rank == 1) {
-        MPI_Recv(&sentcolor, V, MPI_INT, 0, 7, MPI_COMM_WORLD, &status);
         graph = Graph(V);
+        cout << "Graph:\n";
+        printGraph();
+        MPI_Recv(&colorSlave, V, MPI_INT, 0, 7, MPI_COMM_WORLD, &status);
         if (backtracking(0)) ok2 = 1;
         MPI_Send(&ok2, 1, MPI_INT, 0, 10, MPI_COMM_WORLD);
-        MPI_Send(&sentcolor, V, MPI_INT, 0, 11, MPI_COMM_WORLD);
+        MPI_Send(&colorSlave, V, MPI_INT, 0, 11, MPI_COMM_WORLD);
         
     }
-   /*   graph = Graph(V);
-    printGraph();
-    if (backtracking(0)) {
-        cout << V << "\n";
-        for (int i = 0; i < V; i++)
-            cout << color[i] << " ";
-    }
-    else cout << "There is no solution :(";*/
 
     MPI_Finalize();
     return 0;
