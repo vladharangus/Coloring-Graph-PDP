@@ -4,10 +4,11 @@
 #include <iostream>
 #include "Graph.h"
 #include <thread>
+#include <mutex>
 
 using namespace std;
 
-
+mutex m;
 Graph graph = NULL;
 int V = 5;
 int numberOfColors = 3;
@@ -56,9 +57,13 @@ void exec(int color[], int c) {
     if (backtracking(1, color))
     {
       
+        m.lock();
         for (int i = 0; i < V; i++) {
+            
+            
             colors[i] = color[i];
         }
+        m.unlock();
        
     }
     
