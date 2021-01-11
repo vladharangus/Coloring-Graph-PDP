@@ -15,3 +15,5 @@ void Graph::init() {
 				matrix[j][i] = matrix[i][j];
 			}
 }
+
+Graph::~Graph(){}

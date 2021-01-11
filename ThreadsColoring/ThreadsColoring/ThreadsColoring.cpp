@@ -7,13 +7,14 @@
 #include <mutex>
 
 using namespace std;
+#define numberOfColors 3
+#define V 5
 
 mutex m;
 Graph graph = NULL;
-int V = 5;
-int numberOfColors = 3;
-int colors[10];
-thread threads[10];
+
+int colors[V];
+thread threads[numberOfColors+1];
 void exec(int color[], int c);
 
 void printGraph() {
@@ -37,7 +38,7 @@ bool backtracking(int pos, int color[]) {
 
     for (int c = 1; c <= numberOfColors; c++) {
         if (pos == 0) {
-            int color1[5];
+            int color1[V];
             threads[c] = thread(exec, color1, c);
         }
         else {
@@ -74,16 +75,21 @@ int main()
     graph = Graph(V);
     cout << "Graph:\n";
     printGraph();
-    int color[5];
+    int color[V];
     for (int i = 0; i < V; i++)
         color[i] = 0;
     
-    backtracking(0, color);
+    bool solutionFound = backtracking(0, color);
     for (int i = 1; i <= numberOfColors; i++) {
         threads[i].join();
     }
-    for (int i = 0; i < V; i++) {
-        cout << colors[i] << " ";
+    if (colors[0] != 0) {
+        for (int i = 0; i < V; i++) {
+            cout << colors[i] << " ";
+        }
+    }
+    else {
+        cout << "Solution does not exist.";
     }
     return 0;
 }
