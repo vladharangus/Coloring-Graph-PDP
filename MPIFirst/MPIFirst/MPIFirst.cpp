@@ -6,12 +6,12 @@
 #include "Graph.h"
 
 using namespace std;
+#define V 10
+#define numberOfColors 2
 
-int V = 5;
-int numerOfColors = 3;
 Graph graph = NULL;
-int color[10];
-int colorSlave[10];
+int color[V];
+int colorSlave[V];
 int ok1;
 int ok2;
 void printGraph() {
@@ -32,7 +32,7 @@ bool backtracking(int pos) {
     if (pos == V)
         return true;
 
-    for (int c = 1; c <= numerOfColors; c++) {
+    for (int c = 1; c <= numberOfColors; c++) {
         if (isSafe(pos, c)) {
             colorSlave[pos] = c;
             if (backtracking(pos + 1))
